@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<title>Server side DataTable demo in Php,Mysql and Ajax</title>
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" >
+        $(document).ready(function() {
+            var dataTable = $('#users').DataTable( {
+                "processing": true,
+                "serverSide": true,
+                "ajax":{
+                    url :"response.php",
+                    type: "post",
+                    error: function(){
+                        $(".users-error").html("");
+                        $("#users").append('<tbody class="users-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                        $("#users_processing").css("display","none");
+
+                    }
+                },
+                "aoColumns": [
+                    { data: 'name' } ,
+                    { data: 'email',orderable: false },
+                    { data: 'phone' }
+                ],
+                "columnDefs": [
+                    {
+                        "targets": 3,
+                        orderable: false,
+                        "render": function(data, type, row, meta){
+                            return '<a href="customer/' + row['id'] + '/edit">Edit</a>';
+                        }
+                    }
+                ]
+            } );
+        } );
+
+
+
+    </script>
+</head>
+<body>
+<h1>Server side DataTable demo in Php,Mysql and Ajax </h1>
+<table id="users"  cellpadding="0" cellspacing="0" border="0" class="display" width="100%">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Action</th>
+
+    </tr>
+    </thead>
+</table>
+</body>
+</html>
